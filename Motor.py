@@ -72,129 +72,87 @@ def reset():
 
 
 
+
 def turn_right(timeRunning,delay):
     #Rotate the Turtle to the right
         #Front Left and Back Left Motors moves forward
     #reset()
-    timeRunning *= 10000
+    delay = delay/100
+    timeRunning *= 100
     #sleeps are so that we can add a delay and this is what causes the pulse width modulation
     #this makes it go slower
     for i in range(timeRunning):
         GPIO.output(Motor1_input2,GPIO.HIGH)
-        sleep(delay)
-        GPIO.output(Motor1_input1,GPIO.LOW)
-        sleep(delay)
         GPIO.output(Motor1_enable,GPIO.HIGH)
-
         GPIO.output(Motor2_input2,GPIO.HIGH)
-        sleep(delay)
-        GPIO.output(Motor2_input1,GPIO.LOW)
-        sleep(delay)
         GPIO.output(Motor2_enable,GPIO.HIGH)
-
-    #Front Right and Back Right Motors moves forward
         GPIO.output(Motor3_input1,GPIO.HIGH)
-        sleep(delay)
-        GPIO.output(Motor3_input2,GPIO.LOW)
-        sleep(delay)
         GPIO.output(Motor3_enable,GPIO.HIGH)
-
         GPIO.output(Motor4_input1,GPIO.HIGH)
-        sleep(delay)
-        GPIO.output(Motor4_input2,GPIO.LOW)
-        sleep(delay)
         GPIO.output(Motor4_enable,GPIO.HIGH)
-    reset()
+        sleep(0.01*delay) # have to change the way the delays work
+        #Sets Everything to LOW/OFF
+        reset() 
+        sleep(0.01*(1-delay)) # Have to change the way the delays work
+        
+    
     
 def turn_left(timeRunning,delay):
     #Rotate the Turtle to the left
     #Front Left and Back Left Motors moves back
     #reset()
-    timeRunning *= 10000
+    timeRunning *= 100
+    delay = delay/100
     for i in range(timeRunning):
         GPIO.output(Motor1_input1,GPIO.HIGH)
-        sleep(delay)
-        GPIO.output(Motor1_input2,GPIO.LOW)
-        sleep(delay)
         GPIO.output(Motor1_enable,GPIO.HIGH)
-
         GPIO.output(Motor2_input1,GPIO.HIGH)
-        sleep(delay)
-        GPIO.output(Motor2_input2,GPIO.LOW)
-        sleep(delay)
         GPIO.output(Motor2_enable,GPIO.HIGH)
-
-        #Front Right and Back Right Motors moves back
         GPIO.output(Motor3_input2,GPIO.HIGH)
-        sleep(delay)
-        GPIO.output(Motor3_input1,GPIO.LOW)
-        sleep(delay)
         GPIO.output(Motor3_enable,GPIO.HIGH)
-
         GPIO.output(Motor4_input2,GPIO.HIGH)
-        sleep(delay)
-        GPIO.output(Motor4_input1,GPIO.LOW)
-        sleep(delay)
         GPIO.output(Motor4_enable,GPIO.HIGH)
-    reset()
+        sleep(0.01*delay)
+        reset()
+        sleep(0.01*(1-delay))
+
 def move_forward(timeRunning,delay):
     #move Turtle Forwards
     # reset(distane)
-    timeRunning *= 10000
-    for i in range (timeRunning):    
+    timeRunning *= 100
+    delay = delay/100
+    for i in range (timeRunning):
+        print(i)    
         GPIO.output(Motor1_input1,GPIO.HIGH)
-        sleep(delay)
-        GPIO.output(Motor1_input2,GPIO.LOW)
-        sleep(delay)
         GPIO.output(Motor1_enable,GPIO.HIGH)
-
         GPIO.output(Motor2_input1,GPIO.HIGH)
-        sleep(delay)
-        GPIO.output(Motor2_input2,GPIO.LOW)
-        sleep(delay)
         GPIO.output(Motor2_enable,GPIO.HIGH)
-
         GPIO.output(Motor3_input1,GPIO.HIGH)
-        sleep(delay)
-        GPIO.output(Motor3_input2,GPIO.LOW)
-        sleep(delay)
         GPIO.output(Motor3_enable,GPIO.HIGH)
-
         GPIO.output(Motor4_input1,GPIO.HIGH)
-        sleep(delay)
-        GPIO.output(Motor4_input2,GPIO.LOW)
-        sleep(delay)
         GPIO.output(Motor4_enable,GPIO.HIGH)
-    reset()
+        sleep(0.01*delay)
+        reset()
+        sleep(0.01*(1-delay))
 def move_backward(timeRunning,delay):
     #move Turtle BackWards
     #reset()
-    timeRunning *= 10000
+    timeRunning *= 100
+    delay = delay/100
     for i in range(timeRunning):        
         GPIO.output(Motor1_input2,GPIO.HIGH)
-        sleep(delay)
-        GPIO.output(Motor1_input1,GPIO.LOW)
-        sleep(delay)
         GPIO.output(Motor1_enable,GPIO.HIGH)
-
         GPIO.output(Motor2_input2,GPIO.HIGH)
-        sleep(delay)
-        GPIO.output(Motor2_input1,GPIO.LOW)
-        sleep(delay)
         GPIO.output(Motor2_enable,GPIO.HIGH)
-
         GPIO.output(Motor3_input2,GPIO.HIGH)
-        sleep(delay)
-        GPIO.output(Motor3_input1,GPIO.LOW)
-        sleep(delay)
         GPIO.output(Motor3_enable,GPIO.HIGH)
-
         GPIO.output(Motor4_input2,GPIO.HIGH)
-        sleep(delay)
-        GPIO.output(Motor4_input1,GPIO.LOW)
-        sleep(delay)
         GPIO.output(Motor4_enable,GPIO.HIGH)
-    reset() #Im not sure if this works or caused errors at some point but this way it might
+        sleep(0.01*delay)        
+        reset()
+        sleep(0.01*(1-delay))
+        
+     #Im not sure if this works or caused errors at some point but this way it might
     #be more visible to see the changes from the movements as it completes one action and moves to the next
 def move(movement_type,timeRunning=0,delay=0):
     if(movement_type == "Left"):
@@ -233,15 +191,15 @@ def main():
     listOfMovements = [] #this is where we are going to store the movements like transactions
     #While loop keeps adding movements until we have finished adding movements via Stop movement
     while (user_input!="Stop"):
-        user_input = input("Select a Movement: Left, Right, Forward, Backward or Stop\nFormat for input: 'MovementType TimeRunning/Loop Delay'\n")
+        user_input = input("Select a Movement: Left, Right, Forward, Backward or Stop\nFormat for input: 'MovementType TimeRunning/Loop DelayPercent'\n")
         if(user_input[:4]!= "Stop"):
             user_input = user_input.split()
-            listOfMovements.append(move(user_input[0],int(user_input[1]),int(user_input[2]))) # should split the list into all the different arguments
+            listOfMovements.append((move,user_input[0],int(user_input[1]),int(user_input[2]))) # should split the list into all the different arguments
         else:
-            listOfMovements.append(move("Stop")) # this is where we would end the loop
+            listOfMovements.append((move,"Stop")) # this is where we would end the loop
     #This will go through the list of transactions that we just created and will call them one at a time
-    for movement in listOfMovements():
-        movement()
+    for movement in listOfMovements:
+        movement[0](*movement[1:])
     reset()
 
 if __name__ == "__main__": 
