@@ -78,7 +78,7 @@ def turn_right(timeRunning,delay):
         #Front Left and Back Left Motors moves forward
     #reset()
     delay = delay/100
-    timeRunning *= 100
+    timeRunning *= 5
     #sleeps are so that we can add a delay and this is what causes the pulse width modulation
     #this makes it go slower
     for i in range(timeRunning):
@@ -90,10 +90,10 @@ def turn_right(timeRunning,delay):
         GPIO.output(Motor3_enable,GPIO.HIGH)
         GPIO.output(Motor4_input1,GPIO.HIGH)
         GPIO.output(Motor4_enable,GPIO.HIGH)
-        sleep(0.01*delay) # have to change the way the delays work
+        sleep(0.075*delay) # have to change the way the delays work
         #Sets Everything to LOW/OFF
         reset() 
-        sleep(0.01*(1-delay)) # Have to change the way the delays work
+        sleep(0.075*(1-delay)) # Have to change the way the delays work
         
     
     
@@ -101,7 +101,7 @@ def turn_left(timeRunning,delay):
     #Rotate the Turtle to the left
     #Front Left and Back Left Motors moves back
     #reset()
-    timeRunning *= 100
+    timeRunning *= 10
     delay = delay/100
     for i in range(timeRunning):
         GPIO.output(Motor1_input1,GPIO.HIGH)
@@ -112,17 +112,17 @@ def turn_left(timeRunning,delay):
         GPIO.output(Motor3_enable,GPIO.HIGH)
         GPIO.output(Motor4_input2,GPIO.HIGH)
         GPIO.output(Motor4_enable,GPIO.HIGH)
-        sleep(0.01*delay)
+        sleep(0.075*delay)
         reset()
-        sleep(0.01*(1-delay))
+        sleep(0.075*(1-delay))
 
 def move_forward(timeRunning,delay):
     #move Turtle Forwards
     # reset(distane)
-    timeRunning *= 100
+    timeRunning *= 10
     delay = delay/100
     for i in range (timeRunning):
-        print(i)    
+        #print(i)    
         GPIO.output(Motor1_input1,GPIO.HIGH)
         GPIO.output(Motor1_enable,GPIO.HIGH)
         GPIO.output(Motor2_input1,GPIO.HIGH)
@@ -131,13 +131,13 @@ def move_forward(timeRunning,delay):
         GPIO.output(Motor3_enable,GPIO.HIGH)
         GPIO.output(Motor4_input1,GPIO.HIGH)
         GPIO.output(Motor4_enable,GPIO.HIGH)
-        sleep(0.01*delay)
+        sleep(0.075*delay)
         reset()
-        sleep(0.01*(1-delay))
+        sleep(0.075*(1-delay))
 def move_backward(timeRunning,delay):
     #move Turtle BackWards
     #reset()
-    timeRunning *= 100
+    timeRunning *= 10
     delay = delay/100
     for i in range(timeRunning):        
         GPIO.output(Motor1_input2,GPIO.HIGH)
@@ -148,9 +148,9 @@ def move_backward(timeRunning,delay):
         GPIO.output(Motor3_enable,GPIO.HIGH)
         GPIO.output(Motor4_input2,GPIO.HIGH)
         GPIO.output(Motor4_enable,GPIO.HIGH)
-        sleep(0.01*delay)        
+        sleep(0.075*delay)        
         reset()
-        sleep(0.01*(1-delay))
+        sleep(0.075*(1-delay))
         
      #Im not sure if this works or caused errors at some point but this way it might
     #be more visible to see the changes from the movements as it completes one action and moves to the next
