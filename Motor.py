@@ -7,7 +7,7 @@ GPIO.setmode(GPIO.BOARD)
 Motor1_input1 = 5    
 Motor1_input2 = 3
 Motor1_enable = 7    
-
+print()
 Motor2_input1 = 35    
 Motor2_input2 = 33
 Motor2_enable = 37
